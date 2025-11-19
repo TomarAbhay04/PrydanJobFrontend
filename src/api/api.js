@@ -4,6 +4,10 @@ import axios from 'axios';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
 
+if (!import.meta.env.VITE_API_BASE) {
+  console.warn('VITE_API_BASE not set — defaulting to http://localhost:5000 (dev only).');
+}
+
 const api = axios.create({
   baseURL: API_BASE,
   headers: {
@@ -26,9 +30,14 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 export const removeToken = () => localStorage.removeItem(TOKEN_KEY);
 
-/* Logout helper that clears user+token */
-export const logout = () => {
-  setToken(null);
+// /* Logout helper that clears user+token */
+// export const logout = () => {
+//   setToken(null);
+//   localStorage.removeItem('user');
+// };
+
+export const logoutClientOnly = () => {
+  removeToken();
   localStorage.removeItem('user');
 };
 
